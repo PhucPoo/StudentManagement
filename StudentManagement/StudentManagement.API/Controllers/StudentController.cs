@@ -4,12 +4,7 @@ using StudentManagement.StudentManagement.Core.Services;
 
 namespace StudentManagement.StudentManagement.API.Controllers
 {
-    public class StudentController : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
+   
         [ApiController]
         [Route("api/[controller]")]
         public class StudentsController : ControllerBase
@@ -51,5 +46,5 @@ namespace StudentManagement.StudentManagement.API.Controllers
             }
         }
 
-    }
+    
 }
