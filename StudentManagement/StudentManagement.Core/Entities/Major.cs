@@ -9,10 +9,11 @@ namespace StudentManagement.StudentManagement.Core.Entities
 
         public int DepartmentId { get; set; }
         public string Name { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         // Navigation
         public Department Department { get; set; }
         public ICollection<Student> Students { get; set; }
-        public ICollection<StudentClass> StudentClasses { get; set; }
     }
 }

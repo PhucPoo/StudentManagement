@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StudentManagement.Infrastructure.Data;
 using StudentManagement.StudentManagement.Core.Services;
 
@@ -21,8 +20,9 @@ builder.Services.AddScoped<UserService, UserService>();
 //Đăng kí service department
 builder.Services.AddScoped<DepartmentService, DepartmentService>();
 
+//Đăng kí service major
+builder.Services.AddScoped<MajorService, MajorService>();
 
-Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddControllers();
 
 var app = builder.Build();
