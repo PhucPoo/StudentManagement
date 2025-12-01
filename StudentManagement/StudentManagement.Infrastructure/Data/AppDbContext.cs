@@ -1,6 +1,7 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using StudentManagement.StudentManagement.Core.Entities;
+
 namespace StudentManagement.Infrastructure.Data
 {
     public class AppDbContext : DbContext
@@ -57,8 +58,40 @@ namespace StudentManagement.Infrastructure.Data
                 .WithOne(s => s.CourseClass)
                 .HasForeignKey<Schedule>(s => s.CourseClassId)
                 .OnDelete(DeleteBehavior.Restrict);
+            base.OnModelCreating(modelBuilder);
+
+            
         }
-        
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var entries = ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Added);
+            foreach (var entityEntry in entries)
+            {
+                var prop = entityEntry.Property("CreatedAt");
+                if (prop != null && (prop.CurrentValue == null || (DateTime)prop.CurrentValue == default))
+                {
+                    prop.CurrentValue = DateTime.UtcNow;
+                }
+                var updatedAtProp = entityEntry.Property("UpdatedAt");
+                if (updatedAtProp != null && (updatedAtProp.CurrentValue == null || (DateTime)updatedAtProp.CurrentValue == default))
+                {
+                    updatedAtProp.CurrentValue = null;
+                }
+            }
+            var entriesModified = ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Modified);
+
+            foreach (var entityEntry in entriesModified)
+            {
+                var updatedAtProp = entityEntry.Property("UpdatedAt");
+                if (updatedAtProp != null)
+                {
+                    updatedAtProp.CurrentValue = DateTime.UtcNow;
+                }
+            }
+            return await base.SaveChangesAsync(cancellationToken);
+        }
     }
 
 }

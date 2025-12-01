@@ -50,7 +50,6 @@ namespace StudentManagement.StudentManagement.Core.Services
             var student = await _context.Students.FindAsync(id);
             if (student == null) return false;
 
-            // Thay vì xóa thật, đánh dấu "tạm ngưng"
             student.Status = "Inactive";
             await _context.SaveChangesAsync();
             return true;
