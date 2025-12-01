@@ -18,6 +18,10 @@ builder.Services.AddScoped<StudentService, StudentService>();
 //Đăng kí service user
 builder.Services.AddScoped<UserService, UserService>();
 
+//Đăng kí service department
+builder.Services.AddScoped<DepartmentService, DepartmentService>();
+
+
 Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddControllers();
 

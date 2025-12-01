@@ -84,6 +84,11 @@ namespace StudentManagement.Infrastructure.Data
 
             foreach (var entityEntry in entriesModified)
             {
+                var createdAtProp = entityEntry.Property("CreatedAt");
+                if (createdAtProp != null)
+                {
+                    createdAtProp.IsModified = false;  
+                }
                 var updatedAtProp = entityEntry.Property("UpdatedAt");
                 if (updatedAtProp != null)
                 {
